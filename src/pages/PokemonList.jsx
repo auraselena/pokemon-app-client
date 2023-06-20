@@ -27,7 +27,7 @@ const PokemonList = () => {
   const showPokemons = () => {
     return pokemonsData.map((pokemon) => {
       return (
-        <Card onClick={() => navigate("/pokemon-details")} border="1px" key={pokemon.name} marginY={4}>
+        <Card onClick={() => navigate(`/pokemon-details?id=${pokemon.id}`)} border="1px" key={pokemon.name} marginY={4}>
           <CardBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
             <Image boxSize="150px" src={pokemon.sprites.front_default} alt={pokemon.name} />
             <Text as="b" fontSize="md">
