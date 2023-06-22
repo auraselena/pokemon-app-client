@@ -1,4 +1,4 @@
-import { Box, Image, Text, Tag, Flex, Button } from "@chakra-ui/react";
+import { Divider, UnorderedList, ListItem, Badge, Box, Image, Text, Tag, Flex, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -9,13 +9,18 @@ const PokemonDetails = () => {
 
   const [pokemonData, setPokemonData] = useState({});
   const [pokemonImg, setPokemonImg] = useState("");
+  const [pokemonMove, setPokemonMove] = useState([]);
+  const [pokemonType, setPokemonType] = useState([]);
   const [pokemonStat, setPokemonStat] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchDetails = async () => {
     try {
       const response = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
       setPokemonData(response.data);
       setPokemonImg(response.data.sprites.front_default);
+      setPokemonMove(response.data.moves);
+      setPokemonType(response.data.types);
       setPokemonStat(response.data.stats);
     } catch (error) {
       console.log(`Oops.. Error ${error.message}`);
@@ -45,6 +50,40 @@ const PokemonDetails = () => {
     });
   };
 
+  const move = () => {
+    if (pokemonMove.length === 0) {
+      return null;
+    }
+
+    return pokemonMove.map((value) => {
+      return (
+        <UnorderedList>
+          <ListItem key={value.move.name} marginBottom={2} marginRight={2}>
+            {value.move.name}
+          </ListItem>
+        </UnorderedList>
+      );
+    });
+  };
+
+  const type = () => {
+    if (pokemonType.length === 0) {
+      return null;
+    }
+
+    return pokemonType.map((value) => {
+      return (
+        <UnorderedList>
+          <ListItem>
+            <Badge colorScheme="purple" key={value.type.name} marginBottom={2} marginRight={2}>
+              {value.type.name}
+            </Badge>
+          </ListItem>
+        </UnorderedList>
+      );
+    });
+  };
+
   return (
     <>
       <Box className="pokemon-pics" display="flex" flexDirection="column" justifyContent="center" alignItems="center" paddingX={8} paddingY={8} w={[300, 400, 500]}>
@@ -62,7 +101,34 @@ const PokemonDetails = () => {
         <Button colorScheme="teal" size="sm" marginBottom={8}>
           Catch {pokemonData.name}
         </Button>
+
+        <Text>Types:</Text>
+        {type()}
+
+        <Button size="sm" colorScheme="pink" onClick={onOpen} marginY={8}>
+          Click to see {pokemonData.name}'s moves
+        </Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Moves</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>{move()}</ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        <Text>Stats:</Text>
         {stat()}
+
+        <Button colorScheme="teal" size="sm" marginTop={8}>
+          See my Pokemon
+        </Button>
       </Box>
     </>
   );

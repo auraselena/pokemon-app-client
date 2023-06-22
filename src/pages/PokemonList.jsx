@@ -2,14 +2,18 @@ import { Image, Box, Card, CardBody, Text } from "@chakra-ui/react";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const PokemonList = () => {
   const [pokemonsData, setPokemonsData] = useState([]);
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+  const pageCount = Math.ceil(pokemonsData.length / itemsPerPage);
 
   const fetchPokemons = async () => {
     try {
-      const response = await Axios.get(`https://pokeapi.co/api/v2/pokemon/`);
+      const response = await Axios.get(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=0`);
       const pokemons = response.data.results;
 
       const pokemonData = [];
@@ -24,8 +28,16 @@ const PokemonList = () => {
     }
   };
 
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   const showPokemons = () => {
-    return pokemonsData.map((pokemon) => {
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const displayedPokemons = pokemonsData.slice(startIndex, endIndex);
+
+    return displayedPokemons.map((pokemon) => {
       return (
         <Card onClick={() => navigate(`/pokemon-details?id=${pokemon.id}`)} border="1px" key={pokemon.name} marginY={4}>
           <CardBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
@@ -52,6 +64,22 @@ const PokemonList = () => {
       </Box>
       <Box className="pokemon-pics" paddingX={8} w={[300, 400, 500]}>
         {showPokemons()}
+        <ReactPaginate
+          className="pagination"
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"flex"}
+          activeClassName={"active"}
+          previousLinkClassName={"previous"}
+          nextLinkClassName={"next"}
+          disabledClassName={"disabled"}
+        />
       </Box>
     </>
   );

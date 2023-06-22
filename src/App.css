@@ -40,3 +40,50 @@
 .pokemon-pics {
   margin: 0 auto;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.pagination .previous,
+.pagination .next {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.pagination .previous:hover,
+.pagination .next:hover {
+  background-color: #ccc;
+}
+
+.pagination .disabled a {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination ul {
+  list-style-type: none; /* Menonaktifkan bullet dots */
+}
