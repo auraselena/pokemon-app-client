@@ -2,6 +2,7 @@ import { Input, useToast, UnorderedList, ListItem, Badge, Box, Image, Text, Tag,
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { apiUrl } from "../helper";
 
 const PokemonDetails = () => {
   const search = useLocation();
@@ -101,7 +102,7 @@ const PokemonDetails = () => {
 
   const handleCatchButton = async () => {
     try {
-      const response = await Axios.post("http://localhost:7000/pokemon/catch", {
+      const response = await Axios.post(`http://localhost:7000/pokemon/catch`, {
         pokemonId: id,
         nickname: pokemonData.name,
       });
@@ -118,7 +119,7 @@ const PokemonDetails = () => {
         });
       }
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   };
 
@@ -134,7 +135,7 @@ const PokemonDetails = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
-        onCloseComplete: () => navigate("/"),
+        onCloseComplete: () => navigate("/my-pokemon"),
       });
     } catch (error) {
       console.error();

@@ -1,7 +1,8 @@
-import { Box, Image, Text, Card, CardBody, Button, Flex, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, useDisclosure } from "@chakra-ui/react";
+import { Box, Image, Text, Card, CardBody, Button, Flex, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure } from "@chakra-ui/react";
 import Axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 const MyPokemon = () => {
   const [pokemonsData, setPokemonsData] = useState([]);
