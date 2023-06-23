@@ -3,7 +3,6 @@ import Axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const MyPokemon = () => {
   const [pokemonsData, setPokemonsData] = useState([]);
   const [UID, setUID] = useState(0);
@@ -148,6 +147,9 @@ const MyPokemon = () => {
       </Box>
       <Box className="pokemon-pics" paddingX={8} w={[300, 400, 500]}>
         {showPokemons()}
+        <Button onClick={() => navigate("/")}>
+          Back to Home
+        </Button>
       </Box>
     </>
   );
