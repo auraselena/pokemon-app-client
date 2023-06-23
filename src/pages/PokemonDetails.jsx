@@ -184,7 +184,7 @@ const PokemonDetails = () => {
         <Text>Stats:</Text>
         {stat()}
 
-        <Button colorScheme="teal" size="sm" marginY={8}>
+        <Button colorScheme="teal" size="sm" marginY={8} onClick={() => navigate("/my-pokemon")}>
           See my Pokemon list
         </Button>
         <Button variant="link" colorScheme="teal" size="sm" onClick={() => navigate("/")}>
